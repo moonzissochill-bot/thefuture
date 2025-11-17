@@ -15,38 +15,27 @@
 </head>
 <body>
   <h1>صفحة المعلومات</h1>
-
-  <table id="info-table">
+  <table>
     <tr>
       <th>البند</th>
       <th>البيانات</th>
     </tr>
+    <tr>
+      <td>الاسم</td>
+      <td>شنوده وهبه</td>
+    </tr>
+    <tr>
+      <td>رقم الهاتف</td>
+      <td>01507635119</td>
+    </tr>
+    <tr>
+      <td>رقم ولي الأمر</td>
+      <td>01025713692</td>
+    </tr>
+    <tr>
+      <td>المدرسة</td>
+      <td>مدرسة المستقبل الرسمية للّغات</td>
+    </tr>
   </table>
-
-  <script>
-    // ضع هنا رابط الCSV الخاص بك
-    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRh0M65R8Tmb_P8jvfXriQr3lC8ycKY2t67wlPxiH7z9C4Rx_D_cVV2DW4pdwI5wuSKa03e2CPLRTNe/pub?gid=0&single=true&output=csv";
-
-    fetch(csvUrl)
-      .then(response => response.text())
-      .then(text => {
-        const rows = text.split("\n").map(r => r.split(","));
-        const table = document.getElementById("info-table");
-
-        // نبدأ من السطر الثاني لأن الأول عادة فيه العناوين
-        for (let i = 1; i < rows.length; i++) {
-          const row = rows[i];
-          if (row.length < 2) continue;
-
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${row[0]}</td>
-            <td>${row[1]}</td>
-          `;
-          table.appendChild(tr);
-        }
-      });
-  </script>
-
 </body>
 </html>
