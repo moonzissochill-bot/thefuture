@@ -1,50 +1,76 @@
 <!doctype html>
-
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>صفحة المعلومات</title>
+
   <style>
-    body { font-family: Arial, Helvetica, sans-serif; padding: 20px; }
-    h1 { font-size: 1.2rem; margin-bottom: 12px; }
-    table { border-collapse: collapse; width: 100%; max-width: 600px; }
-    th, td { padding: 8px 12px; text-align: right; border: 1px solid; }
-    th { font-weight: 600; }
+    body { 
+      font-family: Arial, Helvetica, sans-serif; 
+      padding: 20px;
+      background: #fafafa;
+    }
+    h1 { 
+      font-size: 1.4rem; 
+      margin-bottom: 15px; 
+    }
+    table { 
+      border-collapse: collapse; 
+      width: 100%; 
+      max-width: 700px; 
+      background: white;
+    }
+    th, td { 
+      padding: 10px 14px; 
+      text-align: right; 
+      border: 1px solid #000; 
+    }
+    th { 
+      font-weight: 600; 
+      background: #eaeaea; 
+    }
   </style>
 </head>
+
 <body>
+
   <h1>صفحة المعلومات</h1>
 
-  <table id="info-table">
-    <tr>
-      <th>البند</th>
-      <th>البيانات</th>
-    </tr>
+  <table id="myTable">
+    <thead>
+      <tr>
+        <th>البند</th>
+        <th>البيانات</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
   </table>
 
   <script>
-    // ضع هنا رابط الCSV الخاص بك
-    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRh0M65R8Tmb_P8jvfXriQr3lC8ycKY2t67wlPxiH7z9C4Rx_D_cVV2DW4pdwI5wuSKa03e2CPLRTNe/pub?output=csv";
+    // ضع هنا رابط الـ Web App من Google Script
+    const url = "https://script.google.com/macros/s/AKfycbwgiWdWzsOl0rrWAUQKV0dcmI4zZ121ubLdnoZ5Z0bEmGbHVGXPs3__U2d-k0n52O0Q2A/exec";
 
-    fetch(csvUrl)
-      .then(response => response.text())
-      .then(text => {
-        const rows = text.split("\n").map(r => r.split(","));
-        const table = document.getElementById("info-table");
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const tbody = document.querySelector("#myTable tbody");
 
-        // نبدأ من السطر الثاني لأن الأول عادة فيه العناوين
-        for (let i = 1; i < rows.length; i++) {
-          const row = rows[i];
-          if (row.length < 2) continue;
-
+        // يضيف كل الصفوف الموجودة في الشيت — مرن بالكامل
+        data.forEach(row => {
           const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${row[0]}</td>
-            <td>${row[1]}</td>
-          `;
-          table.appendChild(tr);
-        }
+
+          row.forEach(cell => {
+            const td = document.createElement("td");
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
       });
   </script>
 
