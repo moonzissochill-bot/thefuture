@@ -1,46 +1,52 @@
-<h2>Shenoua Wahba – Grades & Attendance</h2>
+<!doctype html>
 
-<h3>Grades</h3>
-<table>
-  <tr>
-    <th>البند</th>
-    <th>الدرجة</th>
-  </tr>
-  <tr>
-    <td>Grades</td>
-    <td>700 / 700</td>
-  </tr>
-</table>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>صفحة المعلومات</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; padding: 20px; }
+    h1 { font-size: 1.2rem; margin-bottom: 12px; }
+    table { border-collapse: collapse; width: 100%; max-width: 600px; }
+    th, td { padding: 8px 12px; text-align: right; border: 1px solid; }
+    th { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>صفحة المعلومات</h1>
 
-<h3>الحضور والغياب</h3>
-<table>
-  <tr>
-    <th>الحالة</th>
-    <th>التاريخ</th>
-  </tr>
-  <tr>
-    <td>حاضر</td>
-    <td>8 / 11 / 2025</td>
-  </tr>
-  <tr>
-    <td>حاضر</td>
-    <td>9 / 11 / 2025</td>
-  </tr>
-  <tr>
-    <td>حاضر</td>
-    <td>10 / 11 / 2025</td>
-  </tr>
-  <tr>
-    <td>حاضر</td>
-    <td>11 / 11 / 2025</td>
-  </tr>
-  <tr>
-    <td>حاضر</td>
-    <td>12 / 11 / 2025</td>
-  </tr>
-  <tr>
-    <td>حاضر</td>
-    <td>13 / 11 / 2025</td>
-  </tr>
-</table>
+  <table id="info-table">
+    <tr>
+      <th>البند</th>
+      <th>البيانات</th>
+    </tr>
+  </table>
 
+  <script>
+    // ضع هنا رابط الCSV الخاص بك
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRh0M65R8Tmb_P8jvfXriQr3lC8ycKY2t67wlPxiH7z9C4Rx_D_cVV2DW4pdwI5wuSKa03e2CPLRTNe/pub?output=csv";
+
+    fetch(csvUrl)
+      .then(response => response.text())
+      .then(text => {
+        const rows = text.split("\n").map(r => r.split(","));
+        const table = document.getElementById("info-table");
+
+        // نبدأ من السطر الثاني لأن الأول عادة فيه العناوين
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i];
+          if (row.length < 2) continue;
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row[0]}</td>
+            <td>${row[1]}</td>
+          `;
+          table.appendChild(tr);
+        }
+      });
+  </script>
+
+</body>
+</html>
