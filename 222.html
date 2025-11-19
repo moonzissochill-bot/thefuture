@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>الجدول الدراسي</title>
+
+  <style>
+    body { 
+      font-family: Arial, Helvetica, sans-serif; 
+      padding: 20px;
+      background: #fafafa;
+    }
+    h1 { 
+      font-size: 1.4rem; 
+      margin-bottom: 15px; 
+    }
+    table { 
+      border-collapse: collapse; 
+      width: 100%; 
+      max-width: 700px; 
+      background: white;
+    }
+    th, td { 
+      padding: 10px 14px; 
+      text-align: right; 
+      border: 1px solid #000; 
+    }
+    th { 
+      font-weight: 600; 
+      background: #eaeaea; 
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>الجدول</h1>
+
+  <table id="myTable">
+    <thead>
+      <tr>
+        <th>اليوم</th>
+        <th>الحصه</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // ضع هنا رابط الـ Web App من Google Script
+    const url = "https://script.google.com/macros/s/AKfycbxOFy-fxwQUaADcTvIlJl-7h80F_pYcfeevDRAmZ6yk9GZgdj9P8oPWX7VPAyzl3slAgw/exec";
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const tbody = document.querySelector("#myTable tbody");
+
+        // يضيف كل الصفوف الموجودة في الشيت — مرن بالكامل
+        data.forEach(row => {
+          const tr = document.createElement("tr");
+
+          row.forEach(cell => {
+            const td = document.createElement("td");
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+  </script>
+
+</body>
+</html>
